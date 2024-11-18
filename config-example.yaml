@@ -1,0 +1,50 @@
+app:
+  name: base-framework
+  env: dev # local, dev, test, prod
+  #  server_number: 12
+  key: '7kgDM7GoR0KngCJEwBI80v55bgsdijXKlRj4wt1k23='
+server:
+  http:
+    addr: :8100
+  rpc:
+    addr: :9100
+log:
+  path: ./log
+db:
+  zulin:
+    driver: mysql
+    host: xxxx
+    sources: [
+      'x',
+    ]
+    replicas: [
+      'x',
+    ]
+    port: 3306
+    username: xx
+    password: xx+
+    database: zulin
+    alias: default
+redis:
+  - host: 127.0.0.1
+    port: 6379
+    database: 0
+    password:
+    username:
+    alias: default
+MQ:
+  endpoint: [
+    'http://xx.aliyuncs.com',
+  ]
+  namespace: "MQ_INST_xx"
+  access_key: "xx"
+  secret_key: "xx"
+  env: "dev38"
+
+trace:
+  endpoint: "tracing.xxx.aliyuncs.com"
+  url_path: "/xxxxx/api/otlp/traces"
+
+dingtalk:
+  robots:
+    alarm_secret: "xxxx"
