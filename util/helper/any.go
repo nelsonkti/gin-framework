@@ -32,3 +32,18 @@ func AnyToInt[T any](input T) int {
 		return 0
 	}
 }
+
+func ConvertToInt[T any](input T) int {
+	switch v := any(input).(type) {
+	case float32:
+		return int(v)
+	case float64:
+		return int(v)
+	case int32:
+		return int(v)
+	case int64:
+		return int(v)
+	default:
+		return 0
+	}
+}
