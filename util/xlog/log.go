@@ -12,9 +12,10 @@ import (
 )
 
 const (
-	DateLayout     = "2006-01-02"
-	FileDateLayout = "20060102"
-	TsDateLayout   = "2006-01-02 15:04:05.000"
+	DateLayout      = "2006-01-02"
+	FileDateLayout  = "20060102"
+	FileMonthLayout = "200601"
+	TsDateLayout    = "2006-01-02 15:04:05.000"
 )
 
 // LogOptionFunc 核心选项
@@ -53,7 +54,8 @@ func (l *Log) RotateLogger(logOption *LogOption) {
 	defer l.Unlock()
 
 	currentDate := time.Now().Format(FileDateLayout)
-	logPath := filepath.Join(l.logDir, fmt.Sprintf("%s_%s.log", l.logName, currentDate))
+	currentMonthDir := time.Now().Format(FileMonthLayout)
+	logPath := filepath.Join(l.logDir, currentMonthDir, fmt.Sprintf("%s_%s.log", l.logName, currentDate))
 	w := zapcore.AddSync(&lumberjack.Logger{
 		Filename: logPath,
 		MaxSize:  1024,
