@@ -11,6 +11,12 @@ import (
 	"time"
 )
 
+const (
+	defaultMaxIdleConn = 10
+	defaultMaxOpenConn = 64
+	defaultMaxLifeTime = 5 * 60
+)
+
 type DB struct {
 	Host   gorm.Dialector
 	Master *[]gorm.Dialector
@@ -45,6 +51,9 @@ func (g *Gorm) Name() string {
 func (g *Gorm) Connect(c map[string]config.DBConfig) {
 	g.c = c
 	databases := make(map[string]*gorm.DB)
+	var maxIdleConn int
+	var maxOpenConn int
+	var maxLifeTime int
 	for _, dbConfig := range g.c {
 		database := g.DB[dbConfig.Driver]
 		if database == nil {
@@ -63,14 +72,29 @@ func (g *Gorm) Connect(c map[string]config.DBConfig) {
 
 		sqlDB, err := conn.DB()
 
+		maxIdleConn = defaultMaxIdleConn
+		maxOpenConn = defaultMaxOpenConn
+		maxLifeTime = defaultMaxLifeTime
+		if dbConfig.MaxIdleConn > 0 {
+			maxIdleConn = dbConfig.MaxIdleConn
+		}
+
+		if dbConfig.MaxOpenConn > 0 {
+			maxOpenConn = dbConfig.MaxOpenConn
+		}
+
+		if dbConfig.MaxLifeTime > 0 {
+			maxLifeTime = dbConfig.MaxLifeTime
+		}
+
 		// SetMaxIdleConns 用于设置连接池中空闲连接的最大数量。
-		sqlDB.SetMaxIdleConns(10)
+		sqlDB.SetMaxIdleConns(maxIdleConn)
 
 		// SetMaxOpenConns 设置打开数据库连接的最大数量。
-		sqlDB.SetMaxOpenConns(64)
+		sqlDB.SetMaxOpenConns(maxOpenConn)
 
 		// SetConnMaxLifetime 设置了连接可复用的最大时间。
-		sqlDB.SetConnMaxLifetime(time.Minute * 5)
+		sqlDB.SetConnMaxLifetime(time.Second * time.Duration(maxLifeTime))
 
 		if dbConfig.Alias == "default" {
 			databases[dbConfig.Database] = conn

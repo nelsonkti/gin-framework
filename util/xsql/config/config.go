@@ -18,6 +18,9 @@ type DBConfig struct {
 	Database     string   `json:"database"`
 	Alias        string   `json:"alias"`
 	Options      string   `json:"options"`
+	MaxIdleConn  int      `json:"max_idle_conn"`
+	MaxOpenConn  int      `json:"max_open_conn"`
+	MaxLifeTime  int      `json:"max_life_time"`
 }
 
 func Marshal(v interface{}) []byte {

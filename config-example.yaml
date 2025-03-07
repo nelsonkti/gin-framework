@@ -25,6 +25,11 @@ db:
     password: xx+
     database: zulin
     alias: default
+    max_idle_conn: 1
+    max_open_conn: 10
+    max_life_time: 60 # seconds
+    # options: replicaSet=mgset-70826418
+
 redis:
   - host: 127.0.0.1
     port: 6379

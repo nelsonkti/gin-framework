@@ -44,6 +44,9 @@ type DB struct {
 	Database     string   `json:"database"`      // 数据库
 	Alias        string   `json:"alias"`         // 别名
 	Options      string   `json:"options"`       // 选项
+	MaxIdleConn  int      `json:"max_idle_conn"`
+	MaxOpenConn  int      `json:"max_open_conn"`
+	MaxLifeTime  int      `json:"max_life_time"`
 }
 
 type Redis struct {
